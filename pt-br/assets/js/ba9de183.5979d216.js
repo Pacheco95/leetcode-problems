@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkleetcode=self.webpackChunkleetcode||[]).push([[9694],{1192:e=>{e.exports=JSON.parse('{"metadata":{"permalink":"/pt-br/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
