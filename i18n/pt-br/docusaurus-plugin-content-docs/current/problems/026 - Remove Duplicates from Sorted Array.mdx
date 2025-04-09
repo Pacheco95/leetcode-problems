@@ -3,7 +3,8 @@ title: 26. Remove Duplicates from Sorted Array
 ---
 
 import CodeBlock from "@theme/CodeBlock";
-import source from "!!raw-loader!@site/static/implementations/remove_duplicates_from_sorted_array.py";
+import solution from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted_array/solution.py";
+import tests from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted_array/test_solution.py";
 
 # 26. Remove Duplicates from Sorted Array
 
@@ -11,21 +12,25 @@ https://leetcode.com/problems/remove-duplicates-from-sorted-array/description
 
 ## Implementação
 
-<CodeBlock language="python">{source}</CodeBlock>
+<CodeBlock language="python">{solution}</CodeBlock>
+
+## Testes
+
+<CodeBlock language="python">{tests}</CodeBlock>
 
 ## Definição
 
-$$L = \text{Lista de inteiros ordenada de forma crescente}$$
-$$N = |L| = \text{ Tamanho da lista L}$$
-$$i = \text{Índice do último elemento único da solução parcial}$$
+$$L = \text{Lista de inteiros ordenada de forma crescente}$$  
+$$N = |L| = \text{ Tamanho da lista L}$$  
+$$i = \text{Índice do último elemento único da solução parcial}$$  
 $$j = \text{Índice do elemento propspecto à último elemento único da solução parcial}$$
 
 ## Intuição
 
 A ideia é encontrar o próximo elemento `L[j]` que seja diferente do elemento atual `L[i]`. Uma vez que a lista `L` já está ordernada, é garantido que `L[j] >= L[i]`. Dessa forma, quando `L[i] != L[j]`, aplicamos as seguintes operações:
 
-$$L[i + 1] = L[j]$$
-$$i = i + 1$$
+$$L[i + 1] = L[j]$$  
+$$i = i + 1$$  
 $$j = j + 1$$
 
 Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice válido.
@@ -37,7 +42,7 @@ Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice v�
 `i` e `j` começam apontando para o primeiro e segungo elemento respectivamente.
 É seguro apontar `j` para o segundo elemento mesmo para uma lista de um único elemento pois a condição de parada é `j < N`. Para listas de tamanho 1, essa condição será violada e o algoritmo finalizará pois `1 < 1 == false`.
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
     i
   </span>
@@ -51,7 +56,7 @@ Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice v�
 
 `j` avança para tentar encontrar outro elemento diferente de `i`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
     i
   </span>
@@ -65,7 +70,7 @@ Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice v�
 
 `j` avança para tentar encontrar outro elemento diferente de `i`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
     i
   </span>
@@ -79,7 +84,7 @@ Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice v�
 
 `j` avança e agora aponta para um elemento diferente
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
     i
   </span>
@@ -91,7 +96,7 @@ Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice v�
 
 Agora copiamos `L[j]` para `L[i + 1]`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
     i
   </span>
@@ -103,7 +108,7 @@ Agora copiamos `L[j]` para `L[i + 1]`
 
 Avançamos `i` e `j`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
     i
   </span>
@@ -117,7 +122,7 @@ Avançamos `i` e `j`
 
 `j` avança para tentar encontrar outro elemento diferente de `i`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
     i
   </span>
@@ -131,7 +136,7 @@ Avançamos `i` e `j`
 
 `j` avança e agora aponta para um elemento diferente
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
     i
   </span>
@@ -143,7 +148,7 @@ Avançamos `i` e `j`
 
 Agora copiamos `L[j]` para `L[i + 1]`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
     i
   </span>
@@ -155,7 +160,7 @@ Agora copiamos `L[j]` para `L[i + 1]`
 
 Avançamos `i` e `j`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "4ch" }}>
     i
   </span>
@@ -169,7 +174,7 @@ Avançamos `i` e `j`
 
 `j` avança para tentar encontrar outro elemento diferente de `i`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "4ch" }}>
     i
   </span>
@@ -183,7 +188,7 @@ Avançamos `i` e `j`
 
 Como `j = 7` e `7 < 7 == false`, o algoritmo termina e retorna o tamanho da lista resultante, que nesse caso é `i + 1 == 3`. Dessa forma a solução fica:
 
-<pre>
+<pre class="sample">
   1 2 3 <span class="strike">2 2 3 3</span>
 </pre>
 

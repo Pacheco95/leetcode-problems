@@ -3,15 +3,20 @@ title: 26. Remove Duplicates from Sorted Array
 ---
 
 import CodeBlock from "@theme/CodeBlock";
-import source from "!!raw-loader!@site/static/implementations/remove_duplicates_from_sorted_array.py";
+import solution from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted_array/solution.py";
+import tests from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted_array/test_solution.py";
 
 # 26. Remove Duplicates from Sorted Array
 
 https://leetcode.com/problems/remove-duplicates-from-sorted-array/description
 
-## Implementação
+## Implementation
 
-<CodeBlock language="python">{source}</CodeBlock>
+<CodeBlock language="python">{solution}</CodeBlock>
+
+## Tests
+
+<CodeBlock language="python">{tests}</CodeBlock>
 
 ## Definition
 
@@ -37,7 +42,7 @@ These steps repeats until `j < N`, e.g., when `j` is still a valid index.
 `i` and `j` starts pointing to the first and second elements respectively.
 It is safe to make `j` point to the second element even for a list of a single element because the stop condition is `j < N`. For lists of size 1, this condition will break and the algorithm stops because `1 < 1 == false`.
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
     i
   </span>
@@ -51,7 +56,7 @@ It is safe to make `j` point to the second element even for a list of a single e
 
 `j` moves forward trying to find an element other than `i`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
     i
   </span>
@@ -65,7 +70,7 @@ It is safe to make `j` point to the second element even for a list of a single e
 
 `j` moves forward trying to find an element other than `i`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
     i
   </span>
@@ -79,7 +84,7 @@ It is safe to make `j` point to the second element even for a list of a single e
 
 `j` moves forward and not points to a different element
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
     i
   </span>
@@ -91,7 +96,7 @@ It is safe to make `j` point to the second element even for a list of a single e
 
 Now we copy `L[j]` to `L[i + 1]`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
     i
   </span>
@@ -103,7 +108,7 @@ Now we copy `L[j]` to `L[i + 1]`
 
 Moves `i` and `j` forward
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
     i
   </span>
@@ -117,7 +122,7 @@ Moves `i` and `j` forward
 
 `j` moves forward trying to find an element other than `i`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
     i
   </span>
@@ -131,7 +136,7 @@ Moves `i` and `j` forward
 
 `j` moves forward and not points to a different element
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
     i
   </span>
@@ -143,7 +148,7 @@ Moves `i` and `j` forward
 
 Now we copy `L[j]` to `L[i + 1]`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
     i
   </span>
@@ -155,7 +160,7 @@ Now we copy `L[j]` to `L[i + 1]`
 
 Moves `i` and `j` forward
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "4ch" }}>
     i
   </span>
@@ -169,7 +174,7 @@ Moves `i` and `j` forward
 
 `j` moves forward trying to find an element other than `i`
 
-<pre>
+<pre class="sample">
   <span class="i" style={{ "padding-left": "4ch" }}>
     i
   </span>
@@ -183,7 +188,7 @@ Moves `i` and `j` forward
 
 Since `j = 7` and `7 < 7 == false`, the algorithm finishes and returns the resulting list size, in this case it is `i + 1 == 3`. Thus, the final response is:
 
-<pre>
+<pre class="sample">
   1 2 3 <span class="strike">2 2 3 3</span>
 </pre>
 
