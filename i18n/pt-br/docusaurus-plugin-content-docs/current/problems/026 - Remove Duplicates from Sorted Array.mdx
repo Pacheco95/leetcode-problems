@@ -1,0 +1,157 @@
+---
+title: 26. Remove Duplicates from Sorted Array
+---
+
+import CodeBlock from '@theme/CodeBlock';
+import source from '!!raw-loader!@site/static/implementations/remove_duplicates_from_sorted_array.py';
+
+
+# 26. Remove Duplicates from Sorted Array
+
+https://leetcode.com/problems/remove-duplicates-from-sorted-array/description
+
+## Implementação
+
+<CodeBlock language="python">{source}</CodeBlock>
+
+## Definição
+
+$$L = \text{Lista de inteiros ordenada de forma crescente}$$
+$$N = |L| = \text{ Tamanho da lista L}$$
+$$i = \text{Índice do último elemento único da solução parcial}$$
+$$j = \text{Índice do elemento propspecto à último elemento único da solução parcial}$$
+
+## Intuição
+
+A ideia é encontrar o próximo elemento `L[j]` que seja diferente do elemento atual `L[i]`. Uma vez que a lista `L` já está ordernada, é garantido que `L[j] >= L[i]`. Dessa forma, quando `L[i] != L[j]`, aplicamos as seguintes operações:
+
+$$L[i + 1] = L[j]$$
+$$i = i + 1$$
+$$j = j + 1$$
+
+Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice válido.
+
+## Ilustração
+
+### 1ª iteração
+
+`i` e `j` começam apontando para o primeiro e segungo elemento respectivamente.
+É seguro apontar `j` para o segundo elemento mesmo para uma lista de um único elemento pois a condição de parada é `j < N`. Para listas de tamanho 1, essa condição será violada e o algoritmo finalizará pois `1 < 1 == false`.
+
+<pre>
+<span class="i" style={{"padding-left": "0ch"}}>i</span>
+1 1 1 2 2 3 3
+<span class="j" style={{"padding-left": "2ch"}}>j</span>
+</pre>
+
+### 2ª iteração
+
+`j` avança para tentar encontrar outro elemento diferente de `i`
+
+<pre>
+<span class="i" style={{"padding-left": "0ch"}}>i</span>
+1 1 1 2 2 3 3
+<span class="j" style={{"padding-left": "2ch"}}>j</span>
+</pre>
+
+### 3ª iteração
+
+`j` avança para tentar encontrar outro elemento diferente de `i`
+
+<pre>
+<span class="i" style={{"padding-left": "0ch"}}>i</span>
+1 1 1 2 2 3 3
+<span class="j" style={{"padding-left": "4ch"}}>j</span>
+</pre>
+
+### 4ª iteração
+
+`j` avança e agora aponta para um elemento diferente
+
+<pre>
+<span class="i" style={{"padding-left": "0ch"}}>i</span>
+1 1 1 2 2 3 3
+<span class="j" style={{"padding-left": "6ch"}}>j</span>
+</pre>
+
+Agora copiamos `L[j]` para `L[i + 1]`
+
+<pre>
+<span class="i" style={{"padding-left": "0ch"}}>i</span>
+1 <span class="k">2</span> 1 2 2 3 3
+<span class="j" style={{"padding-left": "6ch"}}>j</span>
+</pre>
+
+Avançamos `i` e `j`
+
+<pre>
+<span class="i" style={{"padding-left": "2ch"}}>i</span>
+1 <span class="k">2</span> 1 2 2 3 3
+<span class="j" style={{"padding-left": "8ch"}}>j</span>
+</pre>
+
+### 5ª iteração
+
+`j` avança para tentar encontrar outro elemento diferente de `i`
+
+<pre>
+<span class="i" style={{"padding-left": "2ch"}}>i</span>
+1 2 1 2 2 3 3
+<span class="j" style={{"padding-left": "10ch"}}>j</span>
+</pre>
+
+### 6ª iteração
+
+`j` avança e agora aponta para um elemento diferente
+
+<pre>
+<span class="i" style={{"padding-left": "2ch"}}>i</span>
+1 2 1 2 2 3 3
+<span class="j" style={{"padding-left": "10ch"}}>j</span>
+</pre>
+
+Agora copiamos `L[j]` para `L[i + 1]`
+
+<pre>
+<span class="i" style={{"padding-left": "2ch"}}>i</span>
+1 2 <span class="k">3</span> 2 2 3 3
+<span class="j" style={{"padding-left": "10ch"}}>j</span>
+</pre>
+
+Avançamos `i` e `j`
+
+<pre>
+<span class="i" style={{"padding-left": "4ch"}}>i</span>
+1 2 <span class="k">3</span> 2 2 3 3
+<span class="j" style={{"padding-left": "12ch"}}>j</span>
+</pre>
+
+### 7ª iteração
+
+`j` avança para tentar encontrar outro elemento diferente de `i`
+
+<pre>
+<span class="i" style={{"padding-left": "4ch"}}>i</span>
+1 2 <span class="k">3</span> 2 2 3 3
+<span class="j" style={{"padding-left": "14ch"}}>j</span>
+</pre>
+
+### 8ª iteração
+
+Como `j = 7` e `7 < 7 == false`, o algoritmo termina e retorna o tamanho da lista resultante, que nesse caso é `i + 1 == 3`. Dessa forma a solução fica:
+
+<pre>
+1 2 3 <span class="strike">2 2 3 3</span>
+</pre>
+
+## Complexidade de tempo
+
+Como a lista é iterada por completo da esquerda para a direita através do ponteiro `j`, a complexidade é:
+
+$$O(n)$$
+
+## Complexidade de espaço
+
+Como a lista é modificada _in-place_ e nenhuma alocação além de variáveis auxiliares é feita, a complexidade é:
+
+$$O(1)$$
