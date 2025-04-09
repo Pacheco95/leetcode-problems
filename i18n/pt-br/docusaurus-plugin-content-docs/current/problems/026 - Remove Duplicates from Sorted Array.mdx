@@ -10,6 +10,31 @@ import tests from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted
 
 https://leetcode.com/problems/remove-duplicates-from-sorted-array/description
 
+## Definição
+
+$$
+\begin{align}
+L = \text{Lista de inteiros ordenada de forma crescente}\\
+N = |L| = \text{ Tamanho da lista L}\\
+i = \text{Índice do último elemento único da solução parcial}\\
+j = \text{Índice do elemento propspecto à último elemento único da solução parcial}\\
+\end{align}
+$$
+
+## Intuição
+
+A ideia é encontrar o próximo elemento $L[j]$ que seja diferente do elemento atual $L[i]$. Uma vez que a lista $L$ já está ordernada, é garantido que $L[j] >= L[i]$. Dessa forma, quando $L[i] != L[j]$, aplicamos as seguintes operações:
+
+$$
+\begin{align}
+L[i + 1] = L[j]\\
+i = i + 1\\
+j = j + 1\\
+\end{align}
+$$
+
+Este processo se repete enquanto $j < N$, isto é, enquanto $j$ é um índice válido.
+
 ## Implementação
 
 <CodeBlock language="python">{solution}</CodeBlock>
@@ -18,29 +43,12 @@ https://leetcode.com/problems/remove-duplicates-from-sorted-array/description
 
 <CodeBlock language="python">{tests}</CodeBlock>
 
-## Definição
-
-$$L = \text{Lista de inteiros ordenada de forma crescente}$$  
-$$N = |L| = \text{ Tamanho da lista L}$$  
-$$i = \text{Índice do último elemento único da solução parcial}$$  
-$$j = \text{Índice do elemento propspecto à último elemento único da solução parcial}$$
-
-## Intuição
-
-A ideia é encontrar o próximo elemento `L[j]` que seja diferente do elemento atual `L[i]`. Uma vez que a lista `L` já está ordernada, é garantido que `L[j] >= L[i]`. Dessa forma, quando `L[i] != L[j]`, aplicamos as seguintes operações:
-
-$$L[i + 1] = L[j]$$  
-$$i = i + 1$$  
-$$j = j + 1$$
-
-Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice válido.
-
 ## Ilustração
 
 ### 1ª iteração
 
-`i` e `j` começam apontando para o primeiro e segungo elemento respectivamente.
-É seguro apontar `j` para o segundo elemento mesmo para uma lista de um único elemento pois a condição de parada é `j < N`. Para listas de tamanho 1, essa condição será violada e o algoritmo finalizará pois `1 < 1 == false`.
+$i$ e $j$ começam apontando para o primeiro e segungo elemento respectivamente.
+É seguro apontar $j$ para o segundo elemento mesmo para uma lista de um único elemento pois a condição de parada é $j < N$. Para listas de tamanho 1, essa condição será violada e o algoritmo finalizará pois $1 < 1 == false$.
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
@@ -54,7 +62,7 @@ Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice v�
 
 ### 2ª iteração
 
-`j` avança para tentar encontrar outro elemento diferente de `i`
+$j$ avança para tentar encontrar outro elemento diferente de $i$
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
@@ -68,7 +76,7 @@ Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice v�
 
 ### 3ª iteração
 
-`j` avança para tentar encontrar outro elemento diferente de `i`
+$j$ avança para tentar encontrar outro elemento diferente de $i$
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
@@ -82,7 +90,7 @@ Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice v�
 
 ### 4ª iteração
 
-`j` avança e agora aponta para um elemento diferente
+$j$ avança e agora aponta para um elemento diferente
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
@@ -94,7 +102,7 @@ Este processo se repete enquanto `j < N`, isto é, enquanto `j` é um índice v�
   </span>
 </pre>
 
-Agora copiamos `L[j]` para `L[i + 1]`
+Agora copiamos $L[j]$ para $L[i + 1]$
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "0ch" }}>
@@ -106,7 +114,7 @@ Agora copiamos `L[j]` para `L[i + 1]`
   </span>
 </pre>
 
-Avançamos `i` e `j`
+Avançamos $i$ e $j$
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
@@ -120,7 +128,7 @@ Avançamos `i` e `j`
 
 ### 5ª iteração
 
-`j` avança para tentar encontrar outro elemento diferente de `i`
+$j$ avança para tentar encontrar outro elemento diferente de $i$
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
@@ -134,7 +142,7 @@ Avançamos `i` e `j`
 
 ### 6ª iteração
 
-`j` avança e agora aponta para um elemento diferente
+$j$ avança e agora aponta para um elemento diferente
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
@@ -146,7 +154,7 @@ Avançamos `i` e `j`
   </span>
 </pre>
 
-Agora copiamos `L[j]` para `L[i + 1]`
+Agora copiamos $L[j]$ para $L[i + 1]$
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "2ch" }}>
@@ -158,7 +166,7 @@ Agora copiamos `L[j]` para `L[i + 1]`
   </span>
 </pre>
 
-Avançamos `i` e `j`
+Avançamos $i$ e $j$
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "4ch" }}>
@@ -172,7 +180,7 @@ Avançamos `i` e `j`
 
 ### 7ª iteração
 
-`j` avança para tentar encontrar outro elemento diferente de `i`
+$j$ avança para tentar encontrar outro elemento diferente de $i$
 
 <pre class="sample">
   <span class="i" style={{ "padding-left": "4ch" }}>
@@ -186,7 +194,7 @@ Avançamos `i` e `j`
 
 ### 8ª iteração
 
-Como `j = 7` e `7 < 7 == false`, o algoritmo termina e retorna o tamanho da lista resultante, que nesse caso é `i + 1 == 3`. Dessa forma a solução fica:
+Como $j = 7$ e $7 < 7 == false$, o algoritmo termina e retorna o tamanho da lista resultante, que nesse caso é $i + 1 == 3$. Dessa forma a solução fica:
 
 <pre class="sample">
   1 2 3 <span class="strike">2 2 3 3</span>
@@ -194,12 +202,8 @@ Como `j = 7` e `7 < 7 == false`, o algoritmo termina e retorna o tamanho da list
 
 ## Complexidade de tempo
 
-Como a lista é iterada por completo da esquerda para a direita através do ponteiro `j`, a complexidade é:
-
-$$O(n)$$
+Como a lista é iterada por completo da esquerda para a direita através do ponteiro $j$, a complexidade é $O(n)$
 
 ## Complexidade de espaço
 
-Como a lista é modificada _in-place_ e nenhuma alocação além de variáveis auxiliares é feita, a complexidade é:
-
-$$O(1)$$
+Como a lista é modificada _in-place_ e nenhuma alocação além de variáveis auxiliares é feita, a complexidade é $O(1)$
