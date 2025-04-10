@@ -5,6 +5,7 @@ title: 26. Remove Duplicates from Sorted Array
 import CodeBlock from "@theme/CodeBlock";
 import solution from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted_array/solution.py";
 import tests from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted_array/test_solution.py";
+import ArrayPointers from "@site/src/components/ArrayPointers";
 
 # 26. Remove Duplicates from Sorted Array
 
@@ -35,174 +36,104 @@ $$
 
 These steps repeats until $j < N$, e.g., when $j$ is still a valid index.
 
-## Implementation
-
-<CodeBlock showLineNumbers language="python">
-  {solution}
-</CodeBlock>
-
-## Tests
-
-<CodeBlock showLineNumbers language="python">
-  {tests}
-</CodeBlock>
-
 ## Ilustration
 
-### 1<sup>st</sup> iteration
+export const example = [1, 1, 1, 2, 2, 3, 3];
+
+### Initial state
 
 $i$ and $j$ starts pointing to the first and second elements respectively.
 It is safe to make $j$ point to the second element even for a list of a single element because the stop condition is $j < N$. For lists of size 1, this condition will break and the algorithm stops because $1 < 1 == false$.
 
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "2ch" }}>
-    j
-  </span>
-</pre>
+<ArrayPointers
+  data={example}
+  pointers={[
+    { index: 0, label: "i", color: "red", position: "TOP" },
+    { index: 1, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
 
-### 2<sup>nd</sup> Iteration
+### 1<sup>st</sup> iteration
 
 $j$ moves forward trying to find an element other than $i$
 
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "2ch" }}>
-    j
-  </span>
-</pre>
+<ArrayPointers
+  data={example}
+  pointers={[
+    { index: 0, label: "i", color: "red", position: "TOP" },
+    { index: 2, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
+
+### 2<sup>rd</sup> Iteration
+
+$j$ moves forward and now points to a different element
+
+<ArrayPointers
+  data={example}
+  pointers={[
+    { index: 0, label: "i", color: "red", position: "TOP" },
+    { index: 3, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
+
+Now we copy $L[j]$ to $L[i + 1]$ and increment both pointers
+
+<ArrayPointers
+  data={[1, 2, 1, 2, 2, 3, 3]}
+  pointers={[
+    { index: 1, label: "i", color: "red", position: "TOP" },
+    { index: 4, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
 
 ### 3<sup>rd</sup> Iteration
 
-$j$ moves forward trying to find an element other than $i$
+$j$ moves forward and now points to a different element
 
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "4ch" }}>
-    j
-  </span>
-</pre>
+<ArrayPointers
+  data={example}
+  pointers={[
+    { index: 1, label: "i", color: "red", position: "TOP" },
+    { index: 5, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
+
+Now we copy $L[j]$ to $L[i + 1]$ and increment both pointers
+
+<ArrayPointers
+  renderOutOfBoundCell
+  data={[1, 2, 3, 2, 2, 3, 3]}
+  pointers={[
+    { index: 2, label: "i", color: "red", position: "TOP" },
+    { index: 7, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
 
 ### 4<sup>th</sup> Iteration
-
-$j$ moves forward and not points to a different element
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "6ch" }}>
-    j
-  </span>
-</pre>
-
-Now we copy $L[j]$ to $L[i + 1]$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 <span class="k">2</span> 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "6ch" }}>
-    j
-  </span>
-</pre>
-
-Moves $i$ and $j$ forward
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 <span class="k">2</span> 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "8ch" }}>
-    j
-  </span>
-</pre>
-
-### 5<sup>th</sup> Iteration
-
-$j$ moves forward trying to find an element other than $i$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 2 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "10ch" }}>
-    j
-  </span>
-</pre>
-
-### 6<sup>th</sup> Iteration
-
-$j$ moves forward and not points to a different element
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 2 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "10ch" }}>
-    j
-  </span>
-</pre>
-
-Now we copy $L[j]$ to $L[i + 1]$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 2 <span class="k">3</span> 2 2 3 3
-  <span class="j" style={{ "padding-left": "10ch" }}>
-    j
-  </span>
-</pre>
-
-Moves $i$ and $j$ forward
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "4ch" }}>
-    i
-  </span>
-  1 2 <span class="k">3</span> 2 2 3 3
-  <span class="j" style={{ "padding-left": "12ch" }}>
-    j
-  </span>
-</pre>
-
-### 7<sup>th</sup> Iteration
-
-$j$ moves forward trying to find an element other than $i$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "4ch" }}>
-    i
-  </span>
-  1 2 <span class="k">3</span> 2 2 3 3
-  <span class="j" style={{ "padding-left": "14ch" }}>
-    j
-  </span>
-</pre>
-
-### 8<sup>th</sup> Iteration
 
 Since $j = 7$ and $7 < 7 == false$, the algorithm finishes and returns the resulting list size, in this case it is $i + 1 == 3$. Thus, the final response is:
 
 <pre class="sample">
   1 2 3 <span class="strike">2 2 3 3</span>
 </pre>
+
+## Implementation
+
+<details>
+<summary>Click to reveal implementation</summary>
+
+<CodeBlock showLineNumbers language="python">
+  {solution}
+</CodeBlock>
+
+</details>
+
+## Tests
+
+<CodeBlock showLineNumbers language="python">
+  {tests}
+</CodeBlock>
 
 ## Time complexity
 
