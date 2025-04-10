@@ -1,0 +1,18 @@
+{
+  "link.title.Socials": {
+    "message": "Redes sociais",
+    "description": "The title of the footer links column with title=Socials in the footer"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/Pacheco95"
+  },
+  "link.item.label.LinkedIn": {
+    "message": "LinkedIn",
+    "description": "The label of footer link with label=LinkedIn linking to https://www.linkedin.com/in/michaelpacheco95"
+  },
+  "copyright": {
+    "message": "Copyright © 2025 Problems LeetCode, Inc. Construído com Docusaurus.",
+    "description": "The footer copyright"
+  }
+}

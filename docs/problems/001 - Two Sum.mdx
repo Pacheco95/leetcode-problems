@@ -36,24 +36,6 @@ We don't need to preprocess the list $L$ to build the lookup table, we can fill 
 For the current element $L[i]$, look for an entry with value $T - L[i]$ in the lookup table which gives us an index $j$ or empty.
 If the entry exists, return the response $[i, j]$, otherwise add the entry $L[i] \Rightarrow i$ to the lookup table and repeat the process.
 
-## Implementation
-
-<details>
-
-<summary>Click to reveal implementation</summary>
-
-<CodeBlock showLineNumbers language="python">
-  {solution}
-</CodeBlock>
-
-</details>
-
-## Tests
-
-<CodeBlock showLineNumbers language="python">
-  {tests}
-</CodeBlock>
-
 ## Ilustration
 
 export const example = [1, 2, 0, 4, 6];
@@ -63,7 +45,7 @@ Target sum: `5`
 
 ### 1<sup>st</sup> iteration
 
-At the first iteration, both $i$ starts at index 0 and the lookup table is empty.
+At the first iteration, $i$ starts at index 0 and the lookup table is empty.
 The current element is $L[i] = L[0] = 1$, so we should look for the complement $C = T - 1 = 5 - 1 = 4$ but
 the lookup table is empty, so we just add the current element to the lookup table and increment $i$.
 
@@ -171,6 +153,24 @@ at row $1$ which gives us the index $0$, so the answer is $[0, i] = [0, 3]$
     },
   ]} />
 </div>
+
+## Implementation
+
+<details>
+
+<summary>Click to reveal implementation</summary>
+
+<CodeBlock showLineNumbers language="python">
+  {solution}
+</CodeBlock>
+
+</details>
+
+## Tests
+
+<CodeBlock showLineNumbers language="python">
+  {tests}
+</CodeBlock>
 
 ## Time complexity
 

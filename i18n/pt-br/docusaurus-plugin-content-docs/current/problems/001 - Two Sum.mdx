@@ -3,8 +3,9 @@ title: 1. Two Sum
 ---
 
 import CodeBlock from "@theme/CodeBlock";
-import solution from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted_array/solution.py";
-import tests from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted_array/test_solution.py";
+import solution from "!!raw-loader!@site/problems/src/two_sum/solution.py";
+import tests from "!!raw-loader!@site/problems/src/two_sum/test_solution.py";
+import ArrayPointers from "@site/src/components/ArrayPointers";
 
 # 1. Two Sum
 
@@ -14,32 +15,156 @@ https://leetcode.com/problems/two-sum/description/
 
 $$
 \begin{align}
-L = \text{Lista de inteiros ordenada de forma crescente}\\
-N = |L| = \text{ Tamanho da lista L}\\
-i = \text{Índice do último elemento único da solução parcial}\\
-j = \text{Índice do elemento propspecto à último elemento único da solução parcial}\\
+L \coloneqq \text{Lista de inteiros}\\
+N \coloneqq  |N| \space \text{Cardinalidade (tamanho) de L}\\
+T \coloneqq \text{Soma esperada}\\
+i \coloneqq \text{Índice atual da iteração}\\
 \end{align}
 $$
 
 ## Intuição
 
-A ideia é encontrar o próximo elemento $L[j]$ que seja diferente do elemento atual $L[i]$. Uma vez que a lista $L$ já está ordernada, é garantido que $L[j] >= L[i]$. Dessa forma, quando $L[i] != L[j]$, aplicamos as seguintes operações:
+A ideia é iterar $L$ e para cada índice $i$ devemos procurar outro índice $j$ que contenha um complemento $C = L[j]$ então:
 
 $$
-\begin{align}
-L[i + 1] = L[j]\\
-i = i + 1\\
-j = j + 1\\
-\end{align}
+L[i] + C = T \Rightarrow L[i] + L[j] = T
 $$
 
-Este processo se repete enquanto $j < N$, isto é, enquanto $j$ é um índice válido.
+Para encontrar o complemento, usaremos uma tabela de consulta.
+Não precisamos pré-processar a lista $L$ para construir a tabela de consulta; podemos preenchê-la enquanto iteramos a lista.
+
+Para o elemento atual $L[i]$, procure na tabela uma entrada com o chave $T - L[i]$ que nos forneça um índice $j$ do complemento ou vazio.
+Se a entrada existir, retorne a resposta $[i, j]$; caso contrário, adicione a entrada $L[i] \Rightarrow i$ à tabela de consulta e repita o processo.
+
+## Ilustração
+
+export const example = [1, 2, 0, 4, 6];
+
+Lista de exemplo: `[1, 2, 0, 4, 6]`  
+Soma desejada: `5`
+
+### 1ª Iteração
+
+Na primeira iteração $i$ começa no índice 0 e a tabela de consulta está vazia.
+O elemento atual é $L[i] = L[0] = 1$, então devemos procurar o complemento $C = T - 1 = 5 - 1 = 4$, mas
+a tabela de consulta está vazia, então apenas adicionamos o elemento atual à tabela de consulta e incrementamos $i$.
+
+<div class="flex-center-row" style={{"align-items": "flex-start"}}>
+  <div>
+  | Linha | Chave | Valor |
+  | :---: | :---: | :---: |
+  | | | |
+  </div>
+
+  <ArrayPointers data={example} pointers={[
+    {
+      index: 0,
+      label: "i",
+      color: "red",
+      position: "TOP"
+    },
+  ]} />
+</div>
+
+### 2ª iteração
+
+O elemento atual é $L[i] = L[1] = 2$, então devemos procurar o complemento $C = T - 2 = 5 - 2 = 3$, mas
+não há nenhuma entrada com a chave $3$ na tabela, então apenas adicionamos o elemento atual à tabela de consulta e incrementamos $i$.
+
+<div class="flex-center-row" style={{"align-items": "flex-start"}}>
+  <div>
+  | Linha | Chave | Valor |
+  | :---: | :---: | :---: |
+  | 1 | 1 | 0 |
+  </div>
+
+  <ArrayPointers data={example} pointers={[
+    {
+      index: 1,
+      label: "i",
+      color: "red",
+      position: "TOP"
+    },
+  ]} />
+</div>
+
+### 3ª iteração
+
+O elemento atual é $L[i] = L[2] = 0$, então devemos procurar o complemento $C = T - 0 = 5 - 0 = 5$, mas
+não há nenhuma entrada com a chave $5$ na tabela, então apenas adicionamos o elemento atual à tabela de consulta e incrementamos $i$.
+
+<div class="flex-center-row" style={{"align-items": "flex-start"}}>
+  <div>
+  | Linha | Chave | Valor |
+  | :---: | :---: | :---: |
+  | 1 | 1 | 0 |
+  | 2 | 2 | 1 |
+  </div>
+
+  <ArrayPointers data={example} pointers={[
+    {
+      index: 2,
+      label: "i",
+      color: "red",
+      position: "TOP"
+    },
+  ]} />
+</div>
+
+### 4ª iteração
+
+O elemento atual é $L[i] = L[3] = 4$, então devemos procurar o complemento $C = T - 4 = 5 - 4 = 1$ e ele existe na tabela
+na linha $1$, que nos dá o índice $0$, então a resposta é $[0, i] = [0, 3]$
+
+<div class="flex-center-row" style={{"align-items": "flex-start"}}>
+  <table style={{"text-align": "center"}}>
+    <thead>
+      <tr>
+        <th>Linha</th>
+        <th>Chave</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style={{background: 'mediumorchid', 'font-weight': '900'}}>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>2</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>0</td>
+        <td>2</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ArrayPointers data={example} pointers={[
+    {
+      index: 3,
+      label: "i",
+      color: "red",
+      position: "TOP"
+    },
+  ]} />
+</div>
 
 ## Implementação
+
+<details>
+
+<summary>Clique para revelar a implementação</summary>
 
 <CodeBlock showLineNumbers language="python">
   {solution}
 </CodeBlock>
+
+</details>
 
 ## Testes
 
@@ -47,167 +172,12 @@ Este processo se repete enquanto $j < N$, isto é, enquanto $j$ é um índice v�
   {tests}
 </CodeBlock>
 
-## Ilustração
+## Time complexity
 
-### 1ª iteração
+No pior caso, o complemento será encontrado no último índice, então precisamos iterar todos os elementos de entrada e preencher/consultar $N - 1$ da tabela.
+A iteração é $O(n)$ e as inserções/consultas levam $O(1)$ de tempo, supondo que não haja colisões.
+Portanto, a complexidade de tempo final é $O(n)$.
 
-$i$ e $j$ começam apontando para o primeiro e segungo elemento respectivamente.
-É seguro apontar $j$ para o segundo elemento mesmo para uma lista de um único elemento pois a condição de parada é $j < N$. Para listas de tamanho 1, essa condição será violada e o algoritmo finalizará pois $1 < 1 == false$.
+## Space complexity
 
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "2ch" }}>
-    j
-  </span>
-</pre>
-
-### 2ª iteração
-
-$j$ avança para tentar encontrar outro elemento diferente de $i$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "2ch" }}>
-    j
-  </span>
-</pre>
-
-### 3ª iteração
-
-$j$ avança para tentar encontrar outro elemento diferente de $i$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "4ch" }}>
-    j
-  </span>
-</pre>
-
-### 4ª iteração
-
-$j$ avança e agora aponta para um elemento diferente
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "6ch" }}>
-    j
-  </span>
-</pre>
-
-Agora copiamos $L[j]$ para $L[i + 1]$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 <span class="k">2</span> 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "6ch" }}>
-    j
-  </span>
-</pre>
-
-Avançamos $i$ e $j$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 <span class="k">2</span> 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "8ch" }}>
-    j
-  </span>
-</pre>
-
-### 5ª iteração
-
-$j$ avança para tentar encontrar outro elemento diferente de $i$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 2 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "10ch" }}>
-    j
-  </span>
-</pre>
-
-### 6ª iteração
-
-$j$ avança e agora aponta para um elemento diferente
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 2 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "10ch" }}>
-    j
-  </span>
-</pre>
-
-Agora copiamos $L[j]$ para $L[i + 1]$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 2 <span class="k">3</span> 2 2 3 3
-  <span class="j" style={{ "padding-left": "10ch" }}>
-    j
-  </span>
-</pre>
-
-Avançamos $i$ e $j$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "4ch" }}>
-    i
-  </span>
-  1 2 <span class="k">3</span> 2 2 3 3
-  <span class="j" style={{ "padding-left": "12ch" }}>
-    j
-  </span>
-</pre>
-
-### 7ª iteração
-
-$j$ avança para tentar encontrar outro elemento diferente de $i$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "4ch" }}>
-    i
-  </span>
-  1 2 <span class="k">3</span> 2 2 3 3
-  <span class="j" style={{ "padding-left": "14ch" }}>
-    j
-  </span>
-</pre>
-
-### 8ª iteração
-
-Como $j = 7$ e $7 < 7 == false$, o algoritmo termina e retorna o tamanho da lista resultante, que nesse caso é $i + 1 == 3$. Dessa forma a solução fica:
-
-<pre class="sample">
-  1 2 3 <span class="strike">2 2 3 3</span>
-</pre>
-
-## Complexidade de tempo
-
-Como a lista é iterada por completo da esquerda para a direita através do ponteiro $j$, a complexidade é $O(n)$
-
-## Complexidade de espaço
-
-Como a lista é modificada _in-place_ e nenhuma alocação além de variáveis auxiliares é feita, a complexidade é $O(1)$
+No pior caso, precisamos preencher a tabela com $N - 1$ entradas, então a complexidade do espaço é $O(N)$.
