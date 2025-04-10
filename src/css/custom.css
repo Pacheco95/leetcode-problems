@@ -33,33 +33,6 @@ table {
   margin: 0;
 }
 
-.i {
-  color: oklch(62.3% 0.214 259.815); /* blue-500 */
-  font-weight: bold;
-
-  &::after {
-    content: "↓";
-  }
-}
-
-.j {
-  color: oklch(72.3% 0.219 149.579); /* green-500 */
-  font-weight: bold;
-
-  &::before {
-    content: "↑";
-  }
-}
-
-.k {
-  color: oklch(62.7% 0.265 303.9); /* purple-500 */
-  font-weight: bold;
-}
-
-.strike {
-  text-decoration: line-through;
-}
-
 pre.sample {
   font-size: 1.2rem;
   font-family: monospace;

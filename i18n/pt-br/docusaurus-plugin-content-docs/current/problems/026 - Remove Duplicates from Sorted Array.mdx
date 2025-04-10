@@ -5,6 +5,7 @@ title: 26. Remove Duplicates from Sorted Array
 import CodeBlock from "@theme/CodeBlock";
 import solution from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted_array/solution.py";
 import tests from "!!raw-loader!@site/problems/src/remove_duplicates_from_sorted_array/test_solution.py";
+import ArrayPointers from "@site/src/components/ArrayPointers";
 
 # 26. Remove Duplicates from Sorted Array
 
@@ -37,160 +38,88 @@ Este processo se repete enquanto $j < N$, isto é, enquanto $j$ é um índice v�
 
 ## Ilustração
 
+export const example = [1, 1, 1, 2, 2, 3, 3];
+
+### Estado inicial
+
+$i$ e $j$ começam apontando para o primeiro e o segundo elementos, respectivamente.
+É seguro fazer $j$ apontar para o segundo elemento, mesmo para uma lista de um único elemento, porque a condição de parada é $j < N$. Para listas de tamanho 1, essa condição será quebrada e o algoritmo para porque $1 < 1 == false$.
+
+<ArrayPointers
+  data={example}
+  pointers={[
+    { index: 0, label: "i", color: "red", position: "TOP" },
+    { index: 1, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
+
 ### 1ª iteração
 
-$i$ e $j$ começam apontando para o primeiro e segungo elemento respectivamente.
-É seguro apontar $j$ para o segundo elemento mesmo para uma lista de um único elemento pois a condição de parada é $j < N$. Para listas de tamanho 1, essa condição será violada e o algoritmo finalizará pois $1 < 1 == false$.
+$j$ avança tentando encontrar um elemento diferente de $i$
 
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "2ch" }}>
-    j
-  </span>
-</pre>
+<ArrayPointers
+  data={example}
+  pointers={[
+    { index: 0, label: "i", color: "red", position: "TOP" },
+    { index: 2, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
 
 ### 2ª iteração
 
-$j$ avança para tentar encontrar outro elemento diferente de $i$
+$j$ avança e agora aponta para um elemento diferente de $i$
 
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "2ch" }}>
-    j
-  </span>
-</pre>
+<ArrayPointers
+  data={example}
+  pointers={[
+    { index: 0, label: "i", color: "red", position: "TOP" },
+    { index: 3, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
+
+<p style={{ "margin-top": "2rem" }}>
+  Agora copiamos $L[j]$ para $L[i + 1]$ e incrementamos ambos os ponteiros
+</p>
+
+<ArrayPointers
+  data={[1, 2, 1, 2, 2, 3, 3]}
+  pointers={[
+    { index: 1, label: "i", color: "red", position: "TOP" },
+    { index: 4, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
 
 ### 3ª iteração
 
-$j$ avança para tentar encontrar outro elemento diferente de $i$
+$j$ avança e agora aponta para um elemento diferente de $i$
 
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "4ch" }}>
-    j
-  </span>
-</pre>
+<ArrayPointers
+  data={example}
+  pointers={[
+    { index: 1, label: "i", color: "red", position: "TOP" },
+    { index: 5, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
+
+<p style={{ "margin-top": "2rem" }}>
+  Agora copiamos $L[j]$ para $L[i + 1]$ e incrementamos ambos os ponteiros
+</p>
+
+<ArrayPointers
+  renderOutOfBoundCell
+  data={[1, 2, 3, 2, 2, 3, 3]}
+  pointers={[
+    { index: 2, label: "i", color: "red", position: "TOP" },
+    { index: 7, label: "j", color: "green", position: "BOTTOM" },
+  ]}
+/>
 
 ### 4ª iteração
 
-$j$ avança e agora aponta para um elemento diferente
+Como $j = 7$ e $7 < 7 == false$, o algoritmo termina e retorna o tamanho da lista resultante, neste caso $i + 1 == 3$.
+Portanto, a resposta final é um array de tamanho 3:
 
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 1 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "6ch" }}>
-    j
-  </span>
-</pre>
-
-Agora copiamos $L[j]$ para $L[i + 1]$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "0ch" }}>
-    i
-  </span>
-  1 <span class="k">2</span> 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "6ch" }}>
-    j
-  </span>
-</pre>
-
-Avançamos $i$ e $j$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 <span class="k">2</span> 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "8ch" }}>
-    j
-  </span>
-</pre>
-
-### 5ª iteração
-
-$j$ avança para tentar encontrar outro elemento diferente de $i$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 2 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "10ch" }}>
-    j
-  </span>
-</pre>
-
-### 6ª iteração
-
-$j$ avança e agora aponta para um elemento diferente
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 2 1 2 2 3 3
-  <span class="j" style={{ "padding-left": "10ch" }}>
-    j
-  </span>
-</pre>
-
-Agora copiamos $L[j]$ para $L[i + 1]$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "2ch" }}>
-    i
-  </span>
-  1 2 <span class="k">3</span> 2 2 3 3
-  <span class="j" style={{ "padding-left": "10ch" }}>
-    j
-  </span>
-</pre>
-
-Avançamos $i$ e $j$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "4ch" }}>
-    i
-  </span>
-  1 2 <span class="k">3</span> 2 2 3 3
-  <span class="j" style={{ "padding-left": "12ch" }}>
-    j
-  </span>
-</pre>
-
-### 7ª iteração
-
-$j$ avança para tentar encontrar outro elemento diferente de $i$
-
-<pre class="sample">
-  <span class="i" style={{ "padding-left": "4ch" }}>
-    i
-  </span>
-  1 2 <span class="k">3</span> 2 2 3 3
-  <span class="j" style={{ "padding-left": "14ch" }}>
-    j
-  </span>
-</pre>
-
-### 8ª iteração
-
-Como $j = 7$ e $7 < 7 == false$, o algoritmo termina e retorna o tamanho da lista resultante, que nesse caso é $i + 1 == 3$. Dessa forma a solução fica:
-
-<pre class="sample">
-  1 2 3 <span class="strike">2 2 3 3</span>
-</pre>
+<ArrayPointers data={[1, 2, 3, "—", "—", "—", "—"]} />
 
 ## Implementação
 
@@ -202,8 +131,6 @@ Como $j = 7$ e $7 < 7 == false$, o algoritmo termina e retorna o tamanho da list
 </CodeBlock>
 
 </details>
-
-## Tests
 
 ## Testes
 
