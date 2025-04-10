@@ -82,9 +82,9 @@ const config: Config = {
       items: [
         {
           type: "docSidebar",
-          sidebarId: "tutorialSidebar",
+          sidebarId: "problemsSidebar",
           position: "left",
-          label: "Tutorial",
+          label: "Problems",
         },
         {
           href: "https://github.com/Pacheco95/leetcode-problems",
