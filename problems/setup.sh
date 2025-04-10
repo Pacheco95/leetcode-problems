@@ -10,6 +10,7 @@ eval "$(pyenv virtualenv-init -)"
 
 clean() {
     find . -type d -name "__pycache__" -not -path "./venv/*" -print0 | xargs -0 rm -rf
+    find . -type d -name ".pytest_cache" -not -path "./venv/*" -print0 | xargs -0 rm -rf
 }
 
 print_python() {

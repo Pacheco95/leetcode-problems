@@ -1,0 +1,183 @@
+---
+title: 1. Two Sum
+---
+
+import CodeBlock from "@theme/CodeBlock";
+import solution from "!!raw-loader!@site/problems/src/two_sum/solution.py";
+import tests from "!!raw-loader!@site/problems/src/two_sum/test_solution.py";
+import ArrayPointers from "@site/src/components/ArrayPointers";
+
+# 1. Two Sum
+
+https://leetcode.com/problems/two-sum/description/
+
+## Definition
+
+$$
+\begin{align}
+L \coloneqq \text{List of integers}\\
+N \coloneqq  |N| \space \text{Cardinality (size) of L}\\
+T \coloneqq \text{The target sum}\\
+i \coloneqq \text{The current iteration index}\\
+\end{align}
+$$
+
+## Intuition
+
+The idea is to iterate $L$ and for each index $i$ we should look for another index $j$ that contains a complement $C = L[j]$ so:
+
+$$
+L[i] + C = T \Rightarrow L[i] + L[j] = T
+$$
+
+To find the complement we shall use a lookup table.
+We don't need to preprocess the list $L$ to build the lookup table, we can fill it while iterating the list.
+
+For the current element $L[i]$, look for an entry with value $T - L[i]$ in the lookup table which gives us an index $j$ or empty.
+If the entry exists, return the response $[i, j]$, otherwise add the entry $L[i] \Rightarrow i$ to the lookup table and repeat the process.
+
+## Implementation
+
+<details>
+
+<summary>Click to reveal implementation</summary>
+
+<CodeBlock showLineNumbers language="python">
+  {solution}
+</CodeBlock>
+
+</details>
+
+## Tests
+
+<CodeBlock showLineNumbers language="python">
+  {tests}
+</CodeBlock>
+
+## Ilustration
+
+export const example = [1, 2, 0, 4, 6];
+
+Example array: `[1, 2, 0, 4, 6]`  
+Target sum: `5`
+
+### 1<sup>st</sup> iteration
+
+At the first iteration, both $i$ starts at index 0 and the lookup table is empty.
+The current element is $L[i] = L[0] = 1$, so we should look for the complement $C = T - 1 = 5 - 1 = 4$ but
+the lookup table is empty, so we just add the current element to the lookup table and increment $i$.
+
+<div class="flex-center-row" style={{"align-items": "flex-start"}}>
+  <div>
+  | Row | Key | Value |
+  | :---: | :---: | :---: |
+  | | | |
+  </div>
+
+  <ArrayPointers data={example} pointers={[
+    {
+      index: 0,
+      label: "i",
+      color: "red",
+      position: "TOP"
+    },
+  ]} />
+</div>
+
+### 2<sup>nd</sup> iteration
+
+The current element is $L[i] = L[1] = 2$, so we should look for the complement $C = T - 2 = 5 - 2 = 3$ but
+there is no entry with key $3$ in the table, so we just add the current element to the lookup table and increment $i$.
+
+<div class="flex-center-row" style={{"align-items": "flex-start"}}>
+  <div>
+  | Row | Key | Value |
+  | :---: | :---: | :---: |
+  | 1 | 1 | 0 |
+  </div>
+
+  <ArrayPointers data={example} pointers={[
+    {
+      index: 1,
+      label: "i",
+      color: "red",
+      position: "TOP"
+    },
+  ]} />
+</div>
+
+### 3<sup>rd</sup> iteration
+
+The current element is $L[i] = L[2] = 0$, so we should look for the complement $C = T - 0 = 5 - 0 = 5$ but
+there is no entry with key $5$ in the table, so we just add the current element to the lookup table and increment $i$.
+
+<div class="flex-center-row" style={{"align-items": "flex-start"}}>
+  <div>
+  | Row | Key | Value |
+  | :---: | :---: | :---: |
+  | 1 | 1 | 0 |
+  | 2 | 2 | 1 |
+  </div>
+
+  <ArrayPointers data={example} pointers={[
+    {
+      index: 2,
+      label: "i",
+      color: "red",
+      position: "TOP"
+    },
+  ]} />
+</div>
+
+### 4<sup>th</sup> iteration
+
+The current element is $L[i] = L[3] = 4$, so we should look for the complement $C = T - 4 = 5 - 4 = 1$ ant it exists in the table
+at row $1$ which gives us the index $0$, so the answer is $[0, i] = [0, 3]$
+
+<div class="flex-center-row" style={{"align-items": "flex-start"}}>
+  <table style={{"text-align": "center"}}>
+    <thead>
+      <tr>
+        <th>Row</th>
+        <th>Key</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style={{background: 'mediumorchid', 'font-weight': '900'}}>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>2</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>0</td>
+        <td>2</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ArrayPointers data={example} pointers={[
+    {
+      index: 3,
+      label: "i",
+      color: "red",
+      position: "TOP"
+    },
+  ]} />
+</div>
+
+## Time complexity
+
+In the worst case, the complement will be found at the last index so we need to iterate all the input and fill/query $N - 1$ table elements.
+The iteration is $O(n)$ and the insertions/queries takes $O(1)$ time assuming no collisions.
+So, the final time complexity is $O(n)$.
+
+## Space complexity
+
+In the worst case we need to fill the table with $N - 1$ entries, so the space complexity is $O(N)$.
